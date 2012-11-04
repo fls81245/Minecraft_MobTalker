@@ -14,6 +14,8 @@ public class EntityFriendlyCreeper extends EntityFriendlyMob
      * weird)
      */
     int lastActiveTime;
+    private int field_82225_f = 30;
+    private int field_82226_g = 3;
 
     public EntityFriendlyCreeper(World par1World)
     {
@@ -40,7 +42,19 @@ public class EntityFriendlyCreeper extends EntityFriendlyMob
     {
         return true;
     }
+    /**
+     * Called when the mob is falling. Calculates and applies fall damage.
+     */
+    protected void fall(float par1)
+    {
+        super.fall(par1);
+        this.timeSinceIgnited = (int)((float)this.timeSinceIgnited + par1 * 1.5F);
 
+        if (this.timeSinceIgnited > this.field_82225_f - 5)
+        {
+            this.timeSinceIgnited = this.field_82225_f - 5;
+        }
+    }
     public int getMaxHealth()
     {
         return 20;
@@ -64,6 +78,9 @@ public class EntityFriendlyCreeper extends EntityFriendlyMob
         {
             par1NBTTagCompound.setBoolean("powered", true);
         }
+        
+        par1NBTTagCompound.setShort("Fuse", (short)this.field_82225_f);
+        par1NBTTagCompound.setByte("ExplosionRadius", (byte)this.field_82226_g);
     }
 
     /**
@@ -73,6 +90,16 @@ public class EntityFriendlyCreeper extends EntityFriendlyMob
     {
         super.readEntityFromNBT(par1NBTTagCompound);
         dataWatcher.updateObject(17, Byte.valueOf((byte)(par1NBTTagCompound.getBoolean("powered") ? 1 : 0)));
+        
+        if (par1NBTTagCompound.hasKey("Fuse"))
+        {
+            this.field_82225_f = par1NBTTagCompound.getShort("Fuse");
+        }
+
+        if (par1NBTTagCompound.hasKey("ExplosionRadius"))
+        {
+            this.field_82226_g = par1NBTTagCompound.getByte("ExplosionRadius");
+        }
     }
 
     /**
@@ -97,19 +124,20 @@ public class EntityFriendlyCreeper extends EntityFriendlyMob
                 timeSinceIgnited = 0;
             }
 
-            if (timeSinceIgnited >= 30)
+            if (timeSinceIgnited >= this.field_82225_f)
             {
-                timeSinceIgnited = 30;
+                timeSinceIgnited = this.field_82225_f;
 
                 if (!worldObj.isRemote)
                 {
-                    if (getPowered())
+                	boolean var2 = this.worldObj.func_82736_K().func_82766_b("mobGriefing");
+                    if (this.getPowered())
                     {
-                        worldObj.createExplosion(this, posX, posY, posZ, 6F);
+                        this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)(this.field_82226_g * 2), var2);
                     }
                     else
                     {
-                        worldObj.createExplosion(this, posX, posY, posZ, 3F);
+                        this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)this.field_82226_g, var2);
                     }
 
                     setDead();

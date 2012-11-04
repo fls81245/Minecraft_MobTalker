@@ -12,7 +12,7 @@ public class mod_Mobtalker extends BaseMod {
 	
 	@Override
 	public String getVersion() {
-		return "MobTalker Beta-10 Engaged";
+		return "MobTalker Beta-11 Engaged";
 	}
 	
 	@Override
@@ -23,7 +23,7 @@ public class mod_Mobtalker extends BaseMod {
 			new Exception("[mod_mobTalker ERROR]Config file not functional.").printStackTrace();
 		}
 		LoadItemID();
-		mobTalker=new ItemMobtalker(mainOption.itemID[0]).setItemName("mobTalker").setTabToDisplayOn(CreativeTabs.tabTools);
+		mobTalker=new ItemMobtalker(mainOption.itemID[0]).setItemName("mobTalker").setCreativeTab(CreativeTabs.tabTools);
 		ModLoader.addName(mobTalker, "Mob Talker");
 		mobTalker.setIconIndex(ModLoader.addOverride("/gui/items.png", "/mobTalker_texture/Talker.png"));
 		   ModLoader.addRecipe(new ItemStack(mobTalker, 1), new Object[] {

@@ -2,7 +2,7 @@ package net.minecraft.src;
 
 import java.util.Random;
 
-public class EntityFriendlySkeleton extends EntityFriendlyMob
+public class EntityFriendlySkeleton extends EntityFriendlyMob implements IRangedAttackMob
 {
     /** The ItemStack that any Skeleton holds (a bow). */
     private static final ItemStack defaultHeldItem;
@@ -164,4 +164,33 @@ public class EntityFriendlySkeleton extends EntityFriendlyMob
     {
         defaultHeldItem = new ItemStack(Item.bow, 1);
     }
+    public int func_82202_m()
+    {
+        return this.dataWatcher.getWatchableObjectByte(13);
+    }
+	@Override
+	public void func_82196_d(EntityLiving var1) {
+        EntityArrow var2 = new EntityArrow(this.worldObj, this, var1, 1.6F, 12.0F);
+        int var3 = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, this.getHeldItem());
+        int var4 = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, this.getHeldItem());
+
+        if (var3 > 0)
+        {
+            var2.setDamage(var2.getDamage() + (double)var3 * 0.5D + 0.5D);
+        }
+
+        if (var4 > 0)
+        {
+            var2.setKnockbackStrength(var4);
+        }
+
+        if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, this.getHeldItem()) > 0 || this.func_82202_m() == 1)
+        {
+            var2.setFire(100);
+        }
+
+        this.worldObj.playSoundAtEntity(this, "random.bow", 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+        this.worldObj.spawnEntityInWorld(var2);
+		
+	}
 }

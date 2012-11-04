@@ -85,7 +85,6 @@ public class EntityFriendlyEnderman extends EntityFriendlyMob
      */
     private boolean shouldAttackPlayer(EntityPlayer par1EntityPlayer)
     {
-    	if (!this.isActiveAttack()) return false;
         ItemStack var2 = par1EntityPlayer.inventory.armorInventory[3];
 
         if (var2 != null && var2.itemID == Block.pumpkin.blockID)
@@ -95,7 +94,7 @@ public class EntityFriendlyEnderman extends EntityFriendlyMob
         else
         {
             Vec3 var3 = par1EntityPlayer.getLook(1.0F).normalize();
-            Vec3 var4 = Vec3.getVec3Pool().getVecFromPool(this.posX - par1EntityPlayer.posX, this.boundingBox.minY + (double)(this.height / 2.0F) - (par1EntityPlayer.posY + (double)par1EntityPlayer.getEyeHeight()), this.posZ - par1EntityPlayer.posZ);
+            Vec3 var4 = this.worldObj.func_82732_R().getVecFromPool(this.posX - par1EntityPlayer.posX, this.boundingBox.minY + (double)(this.height / 2.0F) - (par1EntityPlayer.posY + (double)par1EntityPlayer.getEyeHeight()), this.posZ - par1EntityPlayer.posZ);
             double var5 = var4.lengthVector();
             var4 = var4.normalize();
             double var7 = var3.dotProduct(var4);
@@ -251,7 +250,7 @@ public class EntityFriendlyEnderman extends EntityFriendlyMob
      */
     protected boolean teleportToEntity(Entity par1Entity)
     {
-        Vec3 var2 = Vec3.getVec3Pool().getVecFromPool(this.posX - par1Entity.posX, this.boundingBox.minY + (double)(this.height / 2.0F) - par1Entity.posY + (double)par1Entity.getEyeHeight(), this.posZ - par1Entity.posZ);
+        Vec3 var2 = this.worldObj.func_82732_R().getVecFromPool(this.posX - par1Entity.posX, this.boundingBox.minY + (double)(this.height / 2.0F) - par1Entity.posY + (double)par1Entity.getEyeHeight(), this.posZ - par1Entity.posZ);
         var2 = var2.normalize();
         double var3 = 16.0D;
         double var5 = this.posX + (this.rand.nextDouble() - 0.5D) * 8.0D - var2.xCoord * var3;

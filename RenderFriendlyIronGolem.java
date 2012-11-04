@@ -13,12 +13,12 @@ public class RenderFriendlyIronGolem extends RenderLiving
         field_48422_c = (ModelFriendlyIronGolem)mainModel;
     }
 
-    public void func_48421_a(EntityFriendlyIronGolem par1EntityIronGolem, double par2, double par4, double par6, float par8, float par9)
+    public void doRenderIronGolem(EntityFriendlyIronGolem par1EntityIronGolem, double par2, double par4, double par6, float par8, float par9)
     {
         super.doRenderLiving(par1EntityIronGolem, par2, par4, par6, par8, par9);
     }
 
-    protected void func_48420_a(EntityFriendlyIronGolem par1EntityIronGolem, float par2, float par3, float par4)
+    protected void rotateIronGolemCorpse(EntityFriendlyIronGolem par1EntityIronGolem, float par2, float par3, float par4)
     {
         super.rotateCorpse(par1EntityIronGolem, par2, par3, par4);
 
@@ -29,14 +29,14 @@ public class RenderFriendlyIronGolem extends RenderLiving
         else
         {
             float f = 13F;
-            float f1 = (par1EntityIronGolem.field_70754_ba - par1EntityIronGolem.legYaw * (1.0F - par4)) + 6F;
+            float f1 = (par1EntityIronGolem.legSwing - par1EntityIronGolem.legYaw * (1.0F - par4)) + 6F;
             float f2 = (Math.abs(f1 % f - f * 0.5F) - f * 0.25F) / (f * 0.25F);
             GL11.glRotatef(6.5F * f2, 0.0F, 0.0F, 1.0F);
             return;
         }
     }
 
-    protected void func_48419_a(EntityFriendlyIronGolem par1EntityIronGolem, float par2)
+    protected void renderIronGolemEquippedItems(EntityFriendlyIronGolem par1EntityIronGolem, float par2)
     {
         super.renderEquippedItems(par1EntityIronGolem, par2);
 
@@ -69,17 +69,17 @@ public class RenderFriendlyIronGolem extends RenderLiving
 
     protected void renderEquippedItems(EntityLiving par1EntityLiving, float par2)
     {
-        func_48419_a((EntityFriendlyIronGolem)par1EntityLiving, par2);
+    	renderIronGolemEquippedItems((EntityFriendlyIronGolem)par1EntityLiving, par2);
     }
 
     protected void rotateCorpse(EntityLiving par1EntityLiving, float par2, float par3, float par4)
     {
-        func_48420_a((EntityFriendlyIronGolem)par1EntityLiving, par2, par3, par4);
+    	rotateIronGolemCorpse((EntityFriendlyIronGolem)par1EntityLiving, par2, par3, par4);
     }
 
     public void doRenderLiving(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
     {
-        func_48421_a((EntityFriendlyIronGolem)par1EntityLiving, par2, par4, par6, par8, par9);
+    	doRenderIronGolem((EntityFriendlyIronGolem)par1EntityLiving, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -90,6 +90,6 @@ public class RenderFriendlyIronGolem extends RenderLiving
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        func_48421_a((EntityFriendlyIronGolem)par1Entity, par2, par4, par6, par8, par9);
+    	doRenderIronGolem((EntityFriendlyIronGolem)par1Entity, par2, par4, par6, par8, par9);
     }
 }
